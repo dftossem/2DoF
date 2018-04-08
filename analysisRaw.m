@@ -8,7 +8,7 @@
  t_calc = zeros(test_size);
 %% Uncomment according to the data on Workspace
 % Horizontal voltage test values 10:1
-%  No yet
+%  testVal = [8 870 880 9 10 12 14 16];
 % Horizontal voltage test values 50:1
 %  testVal = 48:1:120;
 % Vertical voltage test values 10:1
@@ -49,17 +49,23 @@
  a = 1;
 %% Loop for all the voltage values
 for k = 1:length(testVal)
-    if testVal(k) < 100
+    if testVal(k) < 10
+        hTest = ['00' num2str(testVal(k))];
+        figTitle = ['0.0' num2str(testVal(k))];        
+    elseif testVal(k) < 100
         hTest = ['0' num2str(testVal(k))];
         figTitle = ['0.' num2str(testVal(k))];
     elseif testVal(k) == 100
         hTest = num2str(testVal(k));
         figTitle = [num2str(testVal(k)/100) '.00'];
-    else
+    elseif testVal(k) > 100 && testVal(k) < 400
         hTest = num2str(testVal(k));
         figTitle = [num2str(testVal(k)/100) '0'];
+    else
+        hTest = ['00' num2str(testVal(k)/10)];
+        figTitle = num2str(testVal(k)/10000);
     end
-    try
+%     try
 %         figure('units','normalized','outerposition',[0 0 1 1])
         figure
         volX(k) = testVal(k)/100;
@@ -160,10 +166,10 @@ for k = 1:length(testVal)
         auxTq101(k) = mean(auxTq);
         auxTq = 0;
         suptitle(['Input voltage ' figTitle '[V]'])
-    catch
-        warning(['No data for ' vT1]);
-        close
-    end
+%     catch
+%         warning(['No data for ' vT1]);
+%         close
+%     end
 end
     pause
     cZeros = 0;
